@@ -243,7 +243,44 @@ const components = [
   },
   {
     name: "CurrencyIcon",
-    dictionary: {}
+    dictionary: {
+      AUD: "AustraliaIcon",
+      GBP: "UnitedKingdomIcon",
+      USD: "UnitedStatesIcon",
+      EUR: "EuropeanUnionIcon",
+      CAD: "CanadaIcon",
+      BGN: "BulgariaIcon",
+      CHF: "SwitzerlandIcon",
+      CNY: "ChinaIcon",
+      COP: "ColombiaIcon",
+      CZK: "CzechRepublicIcon",
+      DKK: "DenmarkIcon",
+      DOP: "DominicanRepublicIcon",
+      EGP: "EgyptIcon",
+      HKD: "HongKongIcon",
+      HRK: "CroatiaIcon",
+      IDR: "IndonesiaIcon",
+      ILS: "IsraelIcon",
+      KES: "KenyaIcon",
+      LKR: "SriLankaIcon",
+      MAD: "MoroccoIcon",
+      MXN: "MexicoIcon",
+      MYR: "MalaysiaIcon",
+      NGN: "NigeriaIcon",
+      NOK: "NorwayIcon",
+      NZD: "NewZealandIcon",
+      PEN: "PeruIcon",
+      PKR: "PakistanIcon",
+      PLN: "PolandIcon",
+      RON: "RomaniaIcon",
+      RUB: "RussiaIcon",
+      SEK: "SwedenIcon",
+      SGD: "SingaporeIcon",
+      THB: "ThailandIcon",
+      TRY: "TurkeyIcon",
+      TWD: "TaiwanIcon",
+      ZAR: "SouthAfricaIcon"
+    }
   }
 ];
 
