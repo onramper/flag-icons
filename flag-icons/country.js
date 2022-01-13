@@ -228,19 +228,29 @@ const countryToComponentName = {
   YE: "YemenIcon",
   ZW: "ZimbabweIcon",
   ZM: "ZambiaIcon",
+  OT: "UnitedKingdomIcon",
+  KN: "SaintKittsAndNevisIcon",
+  XK: "KosovoIcon"
 };
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 
 const generateCountryComponent = () => {
   return `
   import React from 'react';
-  ${Object.entries(countryToComponentName).reduce(
-    (prev, [name, componentName]) => {
-      return (
-        prev +
-        ` import ${componentName} from "./${componentName}";`
-      );
-    },
-    ""
+  ${Object.entries(countryToComponentName)
+          .map(entry => entry[1])
+          .filter(onlyUnique)
+          .reduce(
+            (prev, componentName) => {
+              return (
+                prev +
+                ` import ${componentName} from "./${componentName}";`
+              );
+            },
+            ""
   )}
   import EmptyIcon from "./EmptyIcon";
   
@@ -284,7 +294,8 @@ module.exports = generateCountryIconComponent;
 
 /**
  * TODO:
- * - fix: some country lack icons, should add it in figma and import again here
  * - add currency-flag mapping
  * - test on MAC
+ * - write how when importing icons from figma, is important that components in figma are named in a certain way+
+ * - maybe some steps in the readme (how to add new icons, how to add icons from other source than figma)
  */

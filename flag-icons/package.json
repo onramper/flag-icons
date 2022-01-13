@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/onramper/adapters.git"
+    "url": "git+https://github.com/onramper/flag-icons.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/onramper/adapters/issues"
+    "url": "https://github.com/onramper/flag-icons/issues"
   },
-  "homepage": "https://github.com/onramper/adapters#readme",
+  "homepage": "https://github.com/onramper/flag-icons#readme",
   "devDependencies": {
     "@figma-export/cli": "^4.0.1",
     "@figma-export/output-components-as-svg": "^4.0.1",
