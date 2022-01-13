@@ -256,7 +256,7 @@ const generateCountryComponent = () => {
       ""
     )}
     
-    return <EmptyIcon />;
+    return <EmptyIcon {...props} />;
   };
   
   export default CountryIcon;
@@ -282,3 +282,9 @@ export default CountryIcon;`, { encoding: "utf8", flag: "w" });
 
 module.exports = generateCountryIconComponent;
 
+/**
+ * TODO:
+ * - fix: some country lack icons, should add it in figma and import again here
+ * - add currency-flag mapping
+ * - test on MAC
+ */
