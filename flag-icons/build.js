@@ -7,7 +7,7 @@ const svgr = require('@svgr/core').transform;
 const camelcase = require('camelcase');
 const babel = require('@babel/core');
 const { minify } = require('terser');
-const generateCountryIconComponent = require("./country");
+const generateIconAggregators = require("./icons-aggregator");
 
 const outputPath = './dist';
 const inputPaths = ['./icons/Flags', './icons/other'];
@@ -45,7 +45,7 @@ async function transformSVGtoJSX(inputPath, file, componentName, format) {
   return minifiedCode;
 }
 
-function indexFileContent(files, format, includeExtension = true) {
+function indexFileContent(svgFileNames, aggregatorNames, format, includeExtension = true) {
   let content = '';
   const extension = includeExtension ? '.js' : '';
 
@@ -57,14 +57,13 @@ function indexFileContent(files, format, includeExtension = true) {
         : `module.exports.${componentName} = require(${directoryString});\n`;
   }
 
-  files.map((fileName) => {
-    const componentName = `${camelcase(fileName.replace(/.svg/, ''), {
-      pascalCase: true,
-    })}Icon`;
+  svgFileNames.map((fileName) => {
+    const prefix = camelcase(fileName.replace(/.svg/, ''), { pascalCase: true });
+    const componentName = `${prefix}Icon`;
     appendToContent(componentName);
   });
 
-  ["CountryIcon"].forEach(componentName => {
+  aggregatorNames.forEach(componentName => {
     appendToContent(componentName);
   });
 
@@ -97,17 +96,17 @@ async function buildIcons(format = 'esm') {
     allFiles = [...allFiles, ...files];
   }
 
-  await generateCountryIconComponent(outDir);
+  const aggregatorNames = await generateIconAggregators(outDir);
 
   console.log('- Creating file: index.js');
   await fs.writeFile(
     `${outDir}/index.js`,
-    indexFileContent(allFiles, format),
+    indexFileContent(allFiles, aggregatorNames, format),
     'utf-8'
   );
   await fs.writeFile(
     `${outDir}/index.d.ts`,
-    indexFileContent(allFiles, 'esm', false),
+    indexFileContent(allFiles, aggregatorNames, 'esm', false),
     'utf-8'
   );
 }
