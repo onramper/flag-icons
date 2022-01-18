@@ -352,9 +352,3 @@ async function generateIconAggregators(ouputDir) {
 }
 
 module.exports = generateIconAggregators;
-
-/**
- * TODO:
- * - write how when importing icons from figma, is important that components in figma are named in a certain way,
- *   maybe some steps in the readme (how to add new icons, how to add icons from other source than figma)
- */
