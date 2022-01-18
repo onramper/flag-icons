@@ -287,9 +287,8 @@ const components = [
 function onlyUnique(value, index, self) { return self.indexOf(value) === index; }
 
 const generateComponentJsx = (componentName, nameToTagsMap) => {
-  return `
-  import React from 'react';
-  ${Object.entries(nameToTagsMap)
+  const generateImports = () => `${
+    Object.entries(nameToTagsMap)
           .map(entry => entry[1])
           .filter(onlyUnique)
           .reduce(
@@ -299,7 +298,10 @@ const generateComponentJsx = (componentName, nameToTagsMap) => {
                 import ${TagName} from "./${TagName}";`
               );
             },
-            "")}
+            "")}`;
+  return `
+  import React from 'react';
+  ${generateImports()}
   import EmptyIcon from "./EmptyIcon";
   
   const ${componentName} = (props) => {
@@ -332,8 +334,8 @@ async function generateRawReactCode(jsxCode) {
 async function ouputRawReactFile(componentName, code, ouputDir) {
   await fs.writeFile(`${ouputDir}/${componentName}.js`, code, { encoding: "utf8", flag: "w" });
   await fs.writeFile(`${ouputDir}/${componentName}.d.ts`, `import * as React from 'react'; 
-declare function ${componentName}(props: React.SVGProps<SVGSVGElement>): JSX.Element;
-export default ${componentName};`, 
+  declare function ${componentName}(props: React.SVGProps<SVGSVGElement>): JSX.Element;
+  export default ${componentName};`, 
   { encoding: "utf8", flag: "w" });
 }
 
@@ -353,8 +355,6 @@ module.exports = generateIconAggregators;
 
 /**
  * TODO:
- * - add currency-flag mapping
- * - test on MAC
- * - write how when importing icons from figma, is important that components in figma are named in a certain way+
- * - maybe some steps in the readme (how to add new icons, how to add icons from other source than figma)
+ * - write how when importing icons from figma, is important that components in figma are named in a certain way,
+ *   maybe some steps in the readme (how to add new icons, how to add icons from other source than figma)
  */
