@@ -1,5 +1,5 @@
 # Onramper flag icons
-The package for exporting SVG files as React components. 
+This a package for exporting SVG files as React components. 
 The SVG files were imported using Figma API.
 
 ## Importing icons from Figma
