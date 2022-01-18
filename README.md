@@ -9,7 +9,7 @@ FIGMA_TOKEN=$YOUR_TOKEN
 FILE_ID=$YOUR_FILE_ID
 ```
 
-Follow [these instructions](https://www.figma.com/developers/api#authentication) to get or create your Figma access token. 
+Follow [these instructions](https://www.figma.com/developers/api#authentication) to get or create your Figma access token.  
 The file id can be easily retrieved by accessing your figma file on your browser where you have to extract the value from the URL: 
 https://www.figma.com/file/`${YOUR_FILE_ID}`/my_figma_file_name 
     
