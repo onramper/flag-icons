@@ -19,7 +19,7 @@ module.exports = {
       "components",
       {
         fileId,
-        onlyFromPages: ["Flags"],
+        onlyFromPages: ["flags"],
         transformers: [svgo({ multipass: true, plugins: optimizerPlugins })],
         outputters,
       },

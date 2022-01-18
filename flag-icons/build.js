@@ -10,7 +10,7 @@ const { minify } = require('terser');
 const generateIconAggregators = require("./icons-aggregator");
 
 const outputPath = './dist';
-const inputPaths = ['./icons/Flags', './icons/other'];
+const inputPaths = ['./icons/flags', './icons/other'];
 
 async function transformSVGtoJSX(inputPath, file, componentName, format) {
   const content = await fs.readFile(`${inputPath}/${file}`, 'utf-8');
