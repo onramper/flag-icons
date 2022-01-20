@@ -1,0 +1,52 @@
+name: Base64 Cryptocurrency Icons
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+    - "flag-icons/**"
+defaults:
+  run:
+    working-directory: ./flag-icons
+
+jobs:
+ # build:
+ #   runs-on: ubuntu-latest
+ #   steps:
+ #     - uses: actions/checkout@v2
+ #     - name: Get Node.js
+ #       uses: actions/setup-node@v1
+ #       with:
+ #         node-version: '12.x'
+ #     - run: npm ci
+ #     - run: npm run export
+ #       env:
+ #       FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+ #       FILE_ID: ${{ secrets.FILE_ID }}
+ #     - name: Upload exported files
+ #       uses: actions/upload-artifact@v2
+ #       with:
+ #         name: exported
+ #         path: flag-icons/icons/
+
+  publish:
+    # needs: [build]
+    if: ( github.event_name == 'push' && github.ref == 'refs/heads/master' )'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+      # - name: Download artifacts from build job 
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: exported
+      #     path: flag-icons/icons
+      - run: npm publish
+        if: github.event_name == 'push'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Push version changes to github repo
+        run: git push
