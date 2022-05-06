@@ -1,7 +1,6 @@
-
 const fs = require("fs/promises");
-const babel = require('@babel/core');
-const { minify } = require('terser');
+const babel = require("@babel/core");
+const { minify } = require("terser");
 
 const components = [
   {
@@ -238,8 +237,8 @@ const components = [
       ZM: "ZambiaIcon",
       OT: "UnitedKingdomIcon",
       KN: "SaintKittsAndNevisIcon",
-      XK: "KosovoIcon"
-    }
+      XK: "KosovoIcon",
+    },
   },
   {
     name: "CurrencyIcon",
@@ -279,41 +278,53 @@ const components = [
       THB: "ThailandIcon",
       TRY: "TurkeyIcon",
       TWD: "TaiwanIcon",
-      ZAR: "SouthAfricaIcon"
-    }
-  }
+      ZAR: "SouthAfricaIcon",
+      BRL: "BrazilIcon",
+      JOD: "JordanIcon",
+      JPY: "JapanIcon",
+      KRW: "SouthKoreaIcon",
+      KWD: "KuwaitIcon",
+      OMR: "OmanIcon",
+      VND: "VietnamIcon",
+      UAH: "UkraineIcon",
+      GHS: "GhanaIcon",
+      TZS: "TanzaniaIcon",
+      UGX: "UgandaIcon",
+      INR: "IndiaIcon",
+      AED: "UnitedArabEmiratesIcon",
+      ARS: "ArgentinaIcon",
+      CLP: "ChileIcon",
+      HUF: "HungaryIcon",
+      ISK: "IcelandIcon",
+      PHP: "PhilippinesIcon",
+      KZT: "KazakhstanIcon",
+    },
+  },
 ];
 
-function onlyUnique(value, index, self) { return self.indexOf(value) === index; }
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 
 const generateComponentJsx = (componentName, nameToTagsMap) => {
-  const generateImports = () => `${
-    Object.entries(nameToTagsMap)
-          .map(entry => entry[1])
-          .filter(onlyUnique)
-          .reduce(
-            (prev, TagName) => {
-              return (
-                `${prev} 
-                import ${TagName} from "./${TagName}";`
-              );
-            },
-            "")}`;
+  const generateImports = () =>
+    `${Object.entries(nameToTagsMap)
+      .map((entry) => entry[1])
+      .filter(onlyUnique)
+      .reduce((prev, TagName) => {
+        return `${prev} 
+                import ${TagName} from "./${TagName}";`;
+      }, "")}`;
   return `
   import React from 'react';
   ${generateImports()}
   import EmptyIcon from "./EmptyIcon";
   
   const ${componentName} = (props) => {
-    ${Object.entries(nameToTagsMap).reduce(
-      (prev, [name, TagName]) => {
-        return (
-          `${prev} 
-           if(props.name === "${name}") { return <${TagName} {...props} />; } `
-        );
-      },
-      ""
-    )}
+    ${Object.entries(nameToTagsMap).reduce((prev, [name, TagName]) => {
+      return `${prev} 
+           if(props.name === "${name}") { return <${TagName} {...props} />; } `;
+    }, "")}
     
     return <EmptyIcon {...props} />;
   };
@@ -324,7 +335,7 @@ const generateComponentJsx = (componentName, nameToTagsMap) => {
 
 async function generateRawReactCode(jsxCode) {
   const { code } = await babel.transformAsync(jsxCode, {
-    presets: [['@babel/preset-react', { useBuiltIns: true }]],
+    presets: [["@babel/preset-react", { useBuiltIns: true }]],
   });
   const { code: minifiedCode } = await minify(code);
 
@@ -332,15 +343,21 @@ async function generateRawReactCode(jsxCode) {
 }
 
 async function ouputRawReactFile(componentName, code, ouputDir) {
-  await fs.writeFile(`${ouputDir}/${componentName}.js`, code, { encoding: "utf8", flag: "w" });
-  await fs.writeFile(`${ouputDir}/${componentName}.d.ts`, `import * as React from 'react'; 
+  await fs.writeFile(`${ouputDir}/${componentName}.js`, code, {
+    encoding: "utf8",
+    flag: "w",
+  });
+  await fs.writeFile(
+    `${ouputDir}/${componentName}.d.ts`,
+    `import * as React from 'react'; 
   declare function ${componentName}(props: React.SVGProps<SVGSVGElement>): JSX.Element;
-  export default ${componentName};`, 
-  { encoding: "utf8", flag: "w" });
+  export default ${componentName};`,
+    { encoding: "utf8", flag: "w" }
+  );
 }
 
 async function generateIconAggregators(ouputDir) {
-  for(let i = 0; i < components.length; i++) {
+  for (let i = 0; i < components.length; i++) {
     const { name: componentName, dictionary } = components[i];
 
     const jsxCode = await generateComponentJsx(componentName, dictionary);
@@ -348,7 +365,7 @@ async function generateIconAggregators(ouputDir) {
     await ouputRawReactFile(componentName, rawReactCode, ouputDir);
   }
 
-  return components.map(i => i.name);
+  return components.map((i) => i.name);
 }
 
 module.exports = generateIconAggregators;
