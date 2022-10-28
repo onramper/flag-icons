@@ -1,6 +1,6 @@
 {
   "name": "@onramper/flag-icons",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "This a package for exporting as React components the SVG files related to flag of countries or of other entities.",
   "main": "./dist/index.js",
   "scripts": {
